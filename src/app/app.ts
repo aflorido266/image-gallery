@@ -1,12 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Gallery } from './features/gallery/gallery';
-
-
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Gallery],
+  standalone: true,
+  imports: [Gallery],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
