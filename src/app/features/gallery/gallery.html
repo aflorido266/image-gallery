@@ -1,1 +1,8 @@
-<p>gallery works!</p>
+@for(image of images(); track image.id){
+
+  <img
+    [src]="image.url"
+    [alt]="image.alt"
+  />
+
+}
