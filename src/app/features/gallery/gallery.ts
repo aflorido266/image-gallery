@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IImage } from '../../interfaces/image.interface';
 import { ImageItem } from '../../image-item/image-item';
 
@@ -50,11 +50,13 @@ export class Gallery {
       url: 'https://picsum.photos/id/243/300/200',
       alt: 'Avatar 7'
     },
-    {
-      id: 8,
-      url: 'https://picsum.photos/id/244/300/200',
-      alt: 'Avatar 8'
-    }
+   
   ]);
+deleteImage(id: number) {
 
+    this.images.update(images =>
+      images.filter(image => image.id !== id)
+    );
+
+  }
 }

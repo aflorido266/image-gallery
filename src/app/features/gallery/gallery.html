@@ -1,12 +1,16 @@
-@for(image of images(); track image.id){
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 auto-rows-[150px]">
 
-  <app-image-item
-    [image]="image"
-    [featured]="$first"
-  ></app-image-item>
+  @for(image of images(); track image.id){
 
-}
+    <app-image-item
+      class="block w-full h-full"
+      [image]="image"
+      [featured]="$first"
+      [class.col-span-2]="$first"
+      [class.row-span-2]="$first"
+      (remove)="deleteImage($event)"
+    ></app-image-item>
 
+  }
 
-
-<h1>Gallery works!</h1>
+</div>
