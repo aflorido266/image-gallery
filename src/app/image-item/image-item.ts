@@ -1,5 +1,6 @@
-import { Component, input,ChangeDetectionStrategy } from '@angular/core';
+import { Component, input,output, ChangeDetectionStrategy } from '@angular/core';
 import { IImage } from '../interfaces/image.interface';
+
 
 
 @Component({
@@ -14,7 +15,8 @@ import { IImage } from '../interfaces/image.interface';
 export class ImageItem {
 
   image = input.required<IImage>();
-
   featured = input(false);
-
+  remove = output<number>();
 }
+
+

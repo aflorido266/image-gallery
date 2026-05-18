@@ -1,11 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import {CdkDropList,CdkDrag,CdkDragDrop,moveItemInArray} from '@angular/cdk/drag-drop';
 import { IImage } from '../../interfaces/image.interface';
 import { ImageItem } from '../../image-item/image-item';
 
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [ImageItem],
+  imports: [ImageItem,CdkDropList,CdkDrag],
   templateUrl: './gallery.html',
   styleUrl: './gallery.css',
 })
@@ -50,11 +51,27 @@ export class Gallery {
       url: 'https://picsum.photos/id/243/300/200',
       alt: 'Avatar 7'
     },
-    {
-      id: 8,
-      url: 'https://picsum.photos/id/244/300/200',
-      alt: 'Avatar 8'
-    }
+   
   ]);
+deleteImage(id: number) {
 
+    this.images.update(images =>
+      images.filter(image => image.id !== id)
+    );
+
+  }
+
+  drop(event: CdkDragDrop<IImage[]>) {
+
+  const updatedImages = [...this.images()];
+
+  moveItemInArray(
+    updatedImages,
+    event.previousIndex,
+    event.currentIndex
+  );
+
+  this.images.set(updatedImages);
+
+}
 }
