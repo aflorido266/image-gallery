@@ -1,8 +1,14 @@
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 auto-rows-[150px]">
+<div
+  cdkDropList
+  (cdkDropListDropped)="drop($event)"
+  class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-3 gap-4 auto-rows-[220px]"
+>
+
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-3 gap-4 auto-rows-[220px]">
 
   @for(image of images(); track image.id){
 
-    <app-image-item
+    <app-image-item  cdkDrag
       class="block w-full h-full"
       [image]="image"
       [featured]="$first"
