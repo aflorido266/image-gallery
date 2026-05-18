@@ -17,6 +17,7 @@ export class ImageItem {
   image = input.required<IImage>();
   featured = input(false);
   remove = output<number>();
+  selected = input(false);
 }
 
 

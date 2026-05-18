@@ -1,20 +1,48 @@
+@if(selectedImages().size > 0){
+
+  <div class="mb-4 flex justify-between items-center">
+
+    <p class="text-lg font-semibold">
+      {{ selectedImages().size }} selected image(s)
+    </p>
+
+    <button
+      (click)="deleteSelectedImages()"
+      class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+    >
+      Delete Selected
+    </button>
+
+  </div>
+
+}
+
 <div
   cdkDropList
   (cdkDropListDropped)="drop($event)"
   class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-3 gap-4 auto-rows-[220px]"
 >
 
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-3 gap-4 auto-rows-[220px]">
-
   @for(image of images(); track image.id){
 
-    <app-image-item  cdkDrag
+    <app-image-item
+      cdkDrag
       class="block w-full h-full"
+
       [image]="image"
+
       [featured]="$first"
+
+      [selected]="selectedImages().has(image.id)"
+
       [class.col-span-2]="$first"
+
       [class.row-span-2]="$first"
+
+      (click)="toggleSelection(image.id)"
+
       (remove)="deleteImage($event)"
+
     ></app-image-item>
 
   }

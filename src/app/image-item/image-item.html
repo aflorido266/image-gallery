@@ -1,4 +1,6 @@
-<div class="relative w-full h-full">
+<div class="relative w-full h-full"
+[class.ring-4]="selected()"
+[class.ring-blue-500]="selected()">
 
   <img [src]="image().url" [alt]="image().alt" [class.featured]="featured()"
     class="w-full h-full object-cover rounded-xl" />
