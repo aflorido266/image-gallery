@@ -1,18 +1,22 @@
-import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import {CdkDropList,CdkDrag,CdkDragDrop,moveItemInArray} from '@angular/cdk/drag-drop';
+import { Component, signal } from '@angular/core';
+
+import {
+  CdkDropList,
+  CdkDrag,
+  CdkDragDrop,
+  moveItemInArray
+} from '@angular/cdk/drag-drop';
+
 import { IImage } from '../../interfaces/image.interface';
 import { ImageItem } from '../../image-item/image-item';
 
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [ImageItem,CdkDropList,CdkDrag],
+  imports: [ImageItem, CdkDropList, CdkDrag],
   templateUrl: './gallery.html',
   styleUrl: './gallery.css',
 })
-
-
-
 export class Gallery {
 
   images = signal<IImage[]>([
@@ -51,27 +55,80 @@ export class Gallery {
       url: 'https://picsum.photos/id/243/300/200',
       alt: 'Avatar 7'
     },
-   
   ]);
-deleteImage(id: number) {
+
+  selectedImages = signal(new Set<number>());
+
+  deleteImage(id: number) {
 
     this.images.update(images =>
       images.filter(image => image.id !== id)
     );
 
+    this.selectedImages.update(selected => {
+
+      const updated = new Set(selected);
+
+      updated.delete(id);
+
+      return updated;
+
+    });
+
   }
 
   drop(event: CdkDragDrop<IImage[]>) {
 
-  const updatedImages = [...this.images()];
+    const updatedImages = [...this.images()];
 
-  moveItemInArray(
-    updatedImages,
-    event.previousIndex,
-    event.currentIndex
+    moveItemInArray(
+      updatedImages,
+      event.previousIndex,
+      event.currentIndex
+    );
+
+    this.images.set(updatedImages);
+
+  }
+
+  toggleSelection(id: number) {
+
+    this.selectedImages.update(selected => {
+
+      const updated = new Set(selected);
+
+      if (updated.has(id)) {
+
+        updated.delete(id);
+
+      } else {
+
+        updated.add(id);
+
+      }
+
+      return updated;
+
+    });
+
+  }
+deleteSelectedImages() {
+
+  const confirmed = confirm(
+    `Delete ${this.selectedImages().size} selected image(s)?`
   );
 
-  this.images.set(updatedImages);
+  if(!confirmed) return;
+
+  this.images.update(images =>
+
+    images.filter(
+      image => !this.selectedImages().has(image.id)
+    )
+
+  );
+
+  this.selectedImages.set(new Set());
 
 }
 }
